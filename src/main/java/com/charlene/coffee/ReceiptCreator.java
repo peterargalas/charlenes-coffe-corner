@@ -9,8 +9,7 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.charlene.coffee.model.Coffee.Size.LARGE;
-import static com.charlene.coffee.model.Coffee.Size.SMALL;
+import static com.charlene.coffee.model.Coffee.Size.*;
 
 /**
  * Facade to create a receipt from a list of lineItems.
@@ -48,6 +47,7 @@ public class ReceiptCreator {
     private BigDecimal toPrice(Item item) {
         return switch (item) {
             case Coffee c && c.size() == SMALL -> new BigDecimal("2.50");
+            case Coffee c && c.size() == MEDIUM -> new BigDecimal("3.00");
             case Coffee c && c.size() == LARGE -> new BigDecimal("3.50");
             case BaconRoll r -> new BigDecimal("4.50");
             default -> BigDecimal.ZERO;
