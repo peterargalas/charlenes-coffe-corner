@@ -17,28 +17,28 @@ public class CreateReceiptTest {
     void shouldPrintEmptyReceipt() {
         var receipt = receiptCreator.createReceipt();
 
-        Assertions.assertEquals(RECEIPT_FOR_NO_ITEMS, receipt.toString());
+        Assertions.assertEquals(RECEIPT_FOR_NO_ITEMS, ReceiptPrinter.print(receipt));
     }
 
     @Test
     void shouldPrintReceiptWithSingleCoffee() {
         var receipt = receiptCreator.createReceipt(new Coffee(SMALL));
 
-        Assertions.assertEquals(RECEIPT_FOR_ONE_SMALL_COFFEE, receipt.toString());
+        Assertions.assertEquals(RECEIPT_FOR_ONE_SMALL_COFFEE, ReceiptPrinter.print(receipt));
     }
 
     @Test
     void shouldPrintReceiptWithTwoCoffees() {
         var receipt = receiptCreator.createReceipt(new Coffee(SMALL), new Coffee(LARGE));
 
-        Assertions.assertEquals(RECEIPT_FOR_TWO_COFFEES, receipt.toString());
+        Assertions.assertEquals(RECEIPT_FOR_TWO_COFFEES, ReceiptPrinter.print(receipt));
     }
 
     @Test
     void shouldPrintReceiptWithSingleCoffeeAndBaconRoll() {
         var receipt = receiptCreator.createReceipt(new Coffee(MEDIUM), new BaconRoll());
 
-        Assertions.assertEquals(RECEIPT_FOR_ONE_MEDIUM_COFFEE_AND_BACON_ROLL, receipt.toString());
+        Assertions.assertEquals(RECEIPT_FOR_ONE_MEDIUM_COFFEE_AND_BACON_ROLL, ReceiptPrinter.print(receipt));
     }
 
     private static final String RECEIPT_FOR_NO_ITEMS = """

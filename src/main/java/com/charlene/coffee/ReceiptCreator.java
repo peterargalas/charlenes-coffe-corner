@@ -1,12 +1,10 @@
 package com.charlene.coffee;
 
-import com.charlene.coffee.model.BaconRoll;
-import com.charlene.coffee.model.Coffee;
-import com.charlene.coffee.model.Item;
-import com.charlene.coffee.model.Receipt;
+import com.charlene.coffee.model.*;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static com.charlene.coffee.model.Coffee.Size.*;
@@ -34,10 +32,10 @@ import static com.charlene.coffee.model.Coffee.Size.*;
 public class ReceiptCreator {
     public Receipt createReceipt(Item... items) {
         if (items.length == 0) {
-            return new Receipt("Charlene's Coffee Corner", BigDecimal.ZERO);
+            return new Receipt("Charlene's Coffee Corner", BigDecimal.ZERO, Collections.emptyList());
         }
 
-        return new Receipt("Charlene's Coffee Corner", price(items), lines(items).toArray(new String[]{}));
+        return new Receipt("Charlene's Coffee Corner", price(items), lines(items));
     }
 
     private BigDecimal price(Item... items) {
@@ -54,7 +52,7 @@ public class ReceiptCreator {
         };
     }
 
-    private List<String> lines(Item... items) {
-        return Arrays.stream(items).map(item -> item.description() + " " + toPrice(item) + " CHF").toList();
+    private List<LineItem> lines(Item... items) {
+        return Arrays.stream(items).map(item -> new LineItem(item.description(), toPrice(item))).toList();
     }
 }
