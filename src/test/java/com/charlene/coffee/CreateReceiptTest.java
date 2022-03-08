@@ -41,6 +41,15 @@ public class CreateReceiptTest {
         Assertions.assertEquals(RECEIPT_FOR_ONE_MEDIUM_COFFEE_BACON_ROLL_AND_ORANGE_JUICE, ReceiptPrinter.print(receipt));
     }
 
+    @Test
+    void shouldPrintReceiptForCoffeeWithExtras() {
+        var receipt = Receipt.fromItems(new Coffee(MEDIUM, Coffee.Extras.EXTRA_MILK, Coffee.Extras.FOAMED_MILK,
+                        Coffee.Extras.SPECIAL_ROAST), new BaconRoll(),
+                new OrangeJuice());
+
+        Assertions.assertEquals(RECEIPT_FOR_ONE_MEDIUM_COFFEE_WITH_EXTRAS, ReceiptPrinter.print(receipt));
+    }
+
     private static final String RECEIPT_FOR_NO_ITEMS = """
             Charlene's Coffee Corner
             """;
@@ -61,6 +70,16 @@ public class CreateReceiptTest {
             Freshly squeezed orange juice (0.25l) 3.95 CHF
                 
             Total 11.45 CHF
+            """;
+
+    private static final String RECEIPT_FOR_ONE_MEDIUM_COFFEE_WITH_EXTRAS = """
+            Charlene's Coffee Corner
+            
+            Coffee (medium, extra milk, foamed milk, special roast) 4.70 CHF
+            Bacon roll 4.50 CHF
+            Freshly squeezed orange juice (0.25l) 3.95 CHF
+            
+            Total 13.15 CHF
             """;
 
     private static final String RECEIPT_FOR_TWO_COFFEES = """
