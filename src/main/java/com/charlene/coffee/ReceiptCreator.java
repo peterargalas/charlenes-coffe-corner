@@ -1,13 +1,19 @@
 package com.charlene.coffee;
 
+import com.charlene.coffee.model.Coffee;
 import com.charlene.coffee.model.Item;
 import com.charlene.coffee.model.Receipt;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
+
+import static com.charlene.coffee.model.Coffee.Size.LARGE;
+import static com.charlene.coffee.model.Coffee.Size.SMALL;
 
 /**
- * Facade to create a receipt from a list of items.
- *
+ * Facade to create a receipt from a list of lineItems.
+ * <p>
  * Her Offering
  * - Coffee (small, medium, large) 2.50 CHF, 3.00 CHF, 3.50 CHF
  * - Bacon Roll 4.50 CHF
@@ -31,16 +37,22 @@ public class ReceiptCreator {
             return new Receipt("Charlene's Coffee Corner", BigDecimal.ZERO);
         }
 
-        Item firstItem = items[0];
-
-        return new Receipt("Charlene's Coffee Corner", price(firstItem), description(firstItem));
+        return new Receipt("Charlene's Coffee Corner", price(items), lines(items).toArray(new String[]{}));
     }
 
-    private BigDecimal price(Item item) {
-        return new BigDecimal("2.50");
+    private BigDecimal price(Item... items) {
+        return Arrays.stream(items).map(this::toPrice).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    private String description(Item item) {
-        return item.description() + " 2.50 CHF";
+    private BigDecimal toPrice(Item item) {
+        return switch (item) {
+            case Coffee c && c.size() == SMALL -> new BigDecimal("2.50");
+            case Coffee c && c.size() == LARGE -> new BigDecimal("3.50");
+            default -> BigDecimal.ZERO;
+        };
+    }
+
+    private List<String> lines(Item... items) {
+        return Arrays.stream(items).map(item -> item.description() + " " + toPrice(item) + " CHF").toList();
     }
 }
