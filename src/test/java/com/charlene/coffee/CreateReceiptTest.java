@@ -2,6 +2,7 @@ package com.charlene.coffee;
 
 import com.charlene.coffee.model.BaconRoll;
 import com.charlene.coffee.model.Coffee;
+import com.charlene.coffee.model.OrangeJuice;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -35,10 +36,10 @@ public class CreateReceiptTest {
     }
 
     @Test
-    void shouldPrintReceiptWithSingleCoffeeAndBaconRoll() {
-        var receipt = receiptCreator.createReceipt(new Coffee(MEDIUM), new BaconRoll());
+    void shouldPrintReceiptWithCoffeBaconRollAndOrangeJuice() {
+        var receipt = receiptCreator.createReceipt(new Coffee(MEDIUM), new BaconRoll(), new OrangeJuice());
 
-        Assertions.assertEquals(RECEIPT_FOR_ONE_MEDIUM_COFFEE_AND_BACON_ROLL, ReceiptPrinter.print(receipt));
+        Assertions.assertEquals(RECEIPT_FOR_ONE_MEDIUM_COFFEE_BACON_ROLL_AND_ORANGE_JUICE, ReceiptPrinter.print(receipt));
     }
 
     private static final String RECEIPT_FOR_NO_ITEMS = """
@@ -53,13 +54,14 @@ public class CreateReceiptTest {
             Total 2.50 CHF
             """;
 
-    private static final String RECEIPT_FOR_ONE_MEDIUM_COFFEE_AND_BACON_ROLL = """
+    private static final String RECEIPT_FOR_ONE_MEDIUM_COFFEE_BACON_ROLL_AND_ORANGE_JUICE = """
             Charlene's Coffee Corner
                 
             Coffee (medium) 3.00 CHF
             Bacon roll 4.50 CHF
+            Freshly squeezed orange juice (0.25l) 3.95 CHF
                 
-            Total 7.50 CHF
+            Total 11.45 CHF
             """;
 
     private static final String RECEIPT_FOR_TWO_COFFEES = """

@@ -48,6 +48,7 @@ public class ReceiptCreator {
             case Coffee c && c.size() == MEDIUM -> new BigDecimal("3.00");
             case Coffee c && c.size() == LARGE -> new BigDecimal("3.50");
             case BaconRoll r -> new BigDecimal("4.50");
+            case OrangeJuice oj -> new BigDecimal("3.95");
             default -> BigDecimal.ZERO;
         };
     }
