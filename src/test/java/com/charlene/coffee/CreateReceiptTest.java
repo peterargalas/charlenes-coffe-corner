@@ -13,6 +13,41 @@ import static com.charlene.coffee.model.Coffee.Size.*;
  * Verifies the creation of a receipt for Charlene's Coffee Corner
  */
 public class CreateReceiptTest {
+    private static final String RECEIPT_FOR_NO_ITEMS = """
+            Charlene's Coffee Corner
+            """;
+    private static final String RECEIPT_FOR_ONE_SMALL_COFFEE = """
+            Charlene's Coffee Corner
+                        
+            Coffee (small)                                                 2.50 CHF
+                        
+            Total                                                          2.50 CHF
+            """;
+    private static final String RECEIPT_FOR_ONE_MEDIUM_COFFEE_BACON_ROLL_AND_ORANGE_JUICE = """
+            Charlene's Coffee Corner
+                        
+            Coffee (medium)                                                3.00 CHF
+            Bacon roll                                                     4.50 CHF
+            Freshly squeezed orange juice (0.25l)                          3.95 CHF
+                        
+            Total                                                         11.45 CHF
+            """;
+    private static final String RECEIPT_FOR_ONE_MEDIUM_COFFEE_WITH_EXTRAS = """
+            Charlene's Coffee Corner
+
+            Coffee (medium, extra milk, foamed milk, special roast)        4.70 CHF
+
+            Total                                                          4.70 CHF
+            """;
+    private static final String RECEIPT_FOR_TWO_COFFEES = """
+            Charlene's Coffee Corner
+                        
+            Coffee (small)                                                 2.50 CHF
+            Coffee (large)                                                 3.50 CHF
+                        
+            Total                                                          6.00 CHF
+            """;
+
     @Test
     void shouldPrintEmptyReceipt() {
         var receipt = Receipt.fromItems();
@@ -44,50 +79,8 @@ public class CreateReceiptTest {
     @Test
     void shouldPrintReceiptForCoffeeWithExtras() {
         var receipt = Receipt.fromItems(new Coffee(MEDIUM, Coffee.Extras.EXTRA_MILK, Coffee.Extras.FOAMED_MILK,
-                        Coffee.Extras.SPECIAL_ROAST), new BaconRoll(),
-                new OrangeJuice());
+                Coffee.Extras.SPECIAL_ROAST));
 
         Assertions.assertEquals(RECEIPT_FOR_ONE_MEDIUM_COFFEE_WITH_EXTRAS, ReceiptPrinter.print(receipt));
     }
-
-    private static final String RECEIPT_FOR_NO_ITEMS = """
-            Charlene's Coffee Corner
-            """;
-
-    private static final String RECEIPT_FOR_ONE_SMALL_COFFEE = """
-            Charlene's Coffee Corner
-                
-            Coffee (small) 2.50 CHF
-                
-            Total 2.50 CHF
-            """;
-
-    private static final String RECEIPT_FOR_ONE_MEDIUM_COFFEE_BACON_ROLL_AND_ORANGE_JUICE = """
-            Charlene's Coffee Corner
-                
-            Coffee (medium) 3.00 CHF
-            Bacon roll 4.50 CHF
-            Freshly squeezed orange juice (0.25l) 3.95 CHF
-                
-            Total 11.45 CHF
-            """;
-
-    private static final String RECEIPT_FOR_ONE_MEDIUM_COFFEE_WITH_EXTRAS = """
-            Charlene's Coffee Corner
-            
-            Coffee (medium, extra milk, foamed milk, special roast) 4.70 CHF
-            Bacon roll 4.50 CHF
-            Freshly squeezed orange juice (0.25l) 3.95 CHF
-            
-            Total 13.15 CHF
-            """;
-
-    private static final String RECEIPT_FOR_TWO_COFFEES = """
-            Charlene's Coffee Corner
-                
-            Coffee (small) 2.50 CHF
-            Coffee (large) 3.50 CHF
-                
-            Total 6.00 CHF
-            """;
 }
