@@ -1,5 +1,6 @@
 package com.charlene.coffee;
 
+import com.charlene.coffee.model.BaconRoll;
 import com.charlene.coffee.model.Coffee;
 import com.charlene.coffee.model.Item;
 import com.charlene.coffee.model.Receipt;
@@ -48,6 +49,7 @@ public class ReceiptCreator {
         return switch (item) {
             case Coffee c && c.size() == SMALL -> new BigDecimal("2.50");
             case Coffee c && c.size() == LARGE -> new BigDecimal("3.50");
+            case BaconRoll r -> new BigDecimal("4.50");
             default -> BigDecimal.ZERO;
         };
     }

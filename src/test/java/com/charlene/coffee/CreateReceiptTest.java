@@ -1,5 +1,6 @@
 package com.charlene.coffee;
 
+import com.charlene.coffee.model.BaconRoll;
 import com.charlene.coffee.model.Coffee;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -34,6 +35,13 @@ public class CreateReceiptTest {
         Assertions.assertEquals(RECEIPT_FOR_TWO_COFFEES, receipt.toString());
     }
 
+    @Test
+    void shouldPrintReceiptWithSingleCoffeeAndBaconRoll() {
+        var receipt = receiptCreator.createReceipt(new Coffee(SMALL), new BaconRoll());
+
+        Assertions.assertEquals(RECEIPT_FOR_ONE_MEDIUM_COFFEE_AND_BACON_ROLL, receipt.toString());
+    }
+
     private static final String RECEIPT_FOR_NO_ITEMS = """
             Charlene's Coffee Corner
             """;
@@ -44,6 +52,15 @@ public class CreateReceiptTest {
             Coffee (small) 2.50 CHF
                 
             Total 2.50 CHF
+            """;
+
+    private static final String RECEIPT_FOR_ONE_MEDIUM_COFFEE_AND_BACON_ROLL = """
+            Charlene's Coffee Corner
+                
+            Coffee (small) 2.50 CHF
+            Bacon roll 4.50 CHF
+                
+            Total 7.00 CHF
             """;
 
     private static final String RECEIPT_FOR_TWO_COFFEES = """
