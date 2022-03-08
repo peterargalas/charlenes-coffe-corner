@@ -3,6 +3,7 @@ package com.charlene.coffee;
 import com.charlene.coffee.model.BaconRoll;
 import com.charlene.coffee.model.Coffee;
 import com.charlene.coffee.model.OrangeJuice;
+import com.charlene.coffee.model.Receipt;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -12,32 +13,30 @@ import static com.charlene.coffee.model.Coffee.Size.*;
  * Verifies the creation of a receipt for Charlene's Coffee Corner
  */
 public class CreateReceiptTest {
-    private final ReceiptCreator receiptCreator = new ReceiptCreator();
-
     @Test
     void shouldPrintEmptyReceipt() {
-        var receipt = receiptCreator.createReceipt();
+        var receipt = Receipt.fromItems();
 
         Assertions.assertEquals(RECEIPT_FOR_NO_ITEMS, ReceiptPrinter.print(receipt));
     }
 
     @Test
     void shouldPrintReceiptWithSingleCoffee() {
-        var receipt = receiptCreator.createReceipt(new Coffee(SMALL));
+        var receipt = Receipt.fromItems(new Coffee(SMALL));
 
         Assertions.assertEquals(RECEIPT_FOR_ONE_SMALL_COFFEE, ReceiptPrinter.print(receipt));
     }
 
     @Test
     void shouldPrintReceiptWithTwoCoffees() {
-        var receipt = receiptCreator.createReceipt(new Coffee(SMALL), new Coffee(LARGE));
+        var receipt = Receipt.fromItems(new Coffee(SMALL), new Coffee(LARGE));
 
         Assertions.assertEquals(RECEIPT_FOR_TWO_COFFEES, ReceiptPrinter.print(receipt));
     }
 
     @Test
     void shouldPrintReceiptWithCoffeBaconRollAndOrangeJuice() {
-        var receipt = receiptCreator.createReceipt(new Coffee(MEDIUM), new BaconRoll(), new OrangeJuice());
+        var receipt = Receipt.fromItems(new Coffee(MEDIUM), new BaconRoll(), new OrangeJuice());
 
         Assertions.assertEquals(RECEIPT_FOR_ONE_MEDIUM_COFFEE_BACON_ROLL_AND_ORANGE_JUICE, ReceiptPrinter.print(receipt));
     }
