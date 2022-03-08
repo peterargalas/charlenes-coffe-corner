@@ -3,7 +3,7 @@ package com.charlene.coffee;
 import com.charlene.coffee.model.Item;
 import com.charlene.coffee.model.Receipt;
 
-import java.util.List;
+import java.math.BigDecimal;
 
 /**
  * Facade to create a receipt from a list of items.
@@ -26,7 +26,21 @@ import java.util.List;
  * bacon roll, orange juice)
  */
 public class ReceiptCreator {
-    public Receipt createReceipt(List<Item> items) {
-        return new Receipt("Charlene's Coffee Corner");
+    public Receipt createReceipt(Item... items) {
+        if (items.length == 0) {
+            return new Receipt("Charlene's Coffee Corner", BigDecimal.ZERO);
+        }
+
+        Item firstItem = items[0];
+
+        return new Receipt("Charlene's Coffee Corner", price(firstItem), description(firstItem));
+    }
+
+    private BigDecimal price(Item item) {
+        return new BigDecimal("2.50");
+    }
+
+    private String description(Item item) {
+        return item.description() + " 2.50 CHF";
     }
 }
