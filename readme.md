@@ -1,5 +1,23 @@
 ## Interpretations and notes from implementing the Coffee Corner application
 
+### Current status
+
+I believe in "Make it work, make it nice, make it perform (if needed)". Currently this project is in the "make it work"
+phase, where the requirements aren't implemented, eg there is no program yet, but the business logic as verified by
+tests appears to work for the happy paths.
+
+I am also in a position where I'd like to submit something today, therefore I've forwarded a link to this repository and
+might continue working on it this evening (2022-03-09).
+
+### TODO
+
+- Implement program that reads purchased items from the command line and outputs the receipt to the console.
+- Add code and tests for the unhappy paths
+- Refactor code for increased clarity and possibly efficiency. Some of the stream operations would benefit from cleanup
+  for readability and virtually no considerations have been made for performance. I think this makes sense given that
+  we're printing a receipt for a coffee shop, meaning that the most likely scenario is that we have a few items per
+  receipt.
+
 ### Bonus program
 
 Since no persistence was to be used there is no state regarding the bonus program stamping and no provision has been
@@ -52,12 +70,3 @@ black box that I send the input to and observe that the output is what is expect
 
 I haven't written a program that takes input from the command line and produces the receipt. The only way to currently
 run the code is via the tests. I expect that adding the program with input parsing would be an extra hours work or so.
-
-### Benefit to cost ratio
-
-I spent a few hours on writing this code. I thought it was fun. If I spent a little more time I could probably have made
-it nicer. In a real-life scenario I expect that there will be a standard set by the team and a PR would be created for
-review.
-
-Given the time constraints I have spent the time trying to make the code simple and easy to understand, rather than
-bullet proof.
