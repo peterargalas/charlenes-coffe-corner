@@ -2,7 +2,7 @@ package com.charlene.coffee.model;
 
 import java.math.BigDecimal;
 
-public class BaconRoll implements Item {
+public class BaconRoll implements SaleItem {
     private static final BigDecimal PRICE = new BigDecimal("4.50");
 
     @Override
@@ -13,5 +13,10 @@ public class BaconRoll implements Item {
     @Override
     public BigDecimal price() {
         return PRICE;
+    }
+
+    @Override
+    public Type type() {
+        return Type.SNACK;
     }
 }
