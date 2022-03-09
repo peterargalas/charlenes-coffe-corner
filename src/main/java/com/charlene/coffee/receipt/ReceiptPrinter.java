@@ -20,10 +20,12 @@ public class ReceiptPrinter {
                     .map(ReceiptPrinter::lineItemString)
                     .collect(Collectors.joining(System.lineSeparator()));
 
-            return receipt.name()
-                    + SECTION_SEPARATOR + lineItemsString
-                    + SECTION_SEPARATOR + lineItemString(new LineItem("Total", receipt.total().setScale(2,
+            String totalsString = lineItemString(new LineItem("Total", receipt.total().setScale(2,
                     RoundingMode.HALF_UP))) + System.lineSeparator();
+
+            return receipt.name() +
+                    SECTION_SEPARATOR + lineItemsString +
+                    SECTION_SEPARATOR + totalsString;
         }
 
         return receipt.name() + System.lineSeparator();
