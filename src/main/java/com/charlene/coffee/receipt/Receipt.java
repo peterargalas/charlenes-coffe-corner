@@ -12,24 +12,26 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 /**
- * * Facade to create a receipt from a list of lineItems.
- * * <p>
- * * Her Offering
- * * - Coffee (small, medium, large) 2.50 CHF, 3.00 CHF, 3.50 CHF
- * * - Bacon Roll 4.50 CHF
- * * - Freshly squeezed orange juice (0.25l) 3.95 CHF
- * * Extras:
- * * - Extra milk 0.30 CHF
- * * - Foamed milk 0.50 CHF
- * * - Special roast coffee 0.90 CHF
- * * Bonus Program
- * * Charlene's idea is to attract as many regular‘s as possible to have a steady turnaround.
- * * She decides to offer a customer stamp card, where every 5th beverage is for free.
- * * If a customer orders a beverage and a snack, one of the extra's is free.
- * * Your task is to:
- * * Write a simple program whose output is formatted like a receipt you would receive at a supermarket.
- * * The input to the program is a list of products the shopper wants to purchase (large coffee with extra milk, small coffee with special roast,
- * * bacon roll, orange juice)
+ * Facade to create a receipt from a list of lineItems.
+ * <p>
+ * Requirements at the time of the original implementation.
+ * <p>
+ * Her Offering
+ * - Coffee (small, medium, large) 2.50 CHF, 3.00 CHF, 3.50 CHF
+ * - Bacon Roll 4.50 CHF
+ * - Freshly squeezed orange juice (0.25l) 3.95 CHF
+ * Extras:
+ * - Extra milk 0.30 CHF
+ * - Foamed milk 0.50 CHF
+ * - Special roast coffee 0.90 CHF
+ * Bonus Program
+ * Charlene's idea is to attract as many regular‘s as possible to have a steady turnaround.
+ * She decides to offer a customer stamp card, where every 5th beverage is for free.
+ * If a customer orders a beverage and a snack, one of the extra's is free.
+ * Your task is to:
+ * Write a simple program whose output is formatted like a receipt you would receive at a supermarket.
+ * The input to the program is a list of products the shopper wants to purchase (large coffee with extra milk, small coffee with special roast,
+ * bacon roll, orange juice)
  */
 public record Receipt(String name, BigDecimal total, List<LineItem> lineItems) {
     public static Receipt fromItems(SaleItem... items) {
@@ -51,7 +53,7 @@ public record Receipt(String name, BigDecimal total, List<LineItem> lineItems) {
     private static List<LineItem> everyFifthBeverageFreeDiscounts(SaleItem[] items) {
         List<LineItem> discountList = new ArrayList<>();
         long beveragesCount = Arrays.stream(items)
-                .filter(item -> item.type() == SaleItem.Type.BEVERAGE)
+                .filter(SaleItem::isBeverage)
                 .count();
 
         if (beveragesCount >= 5) {

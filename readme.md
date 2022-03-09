@@ -2,7 +2,7 @@
 
 ### Current status
 
-I believe in "Make it work, make it nice, make it perform (if needed)". Currently this project is in the "make it work"
+I believe in "Make it work, make it nice, make it perform (if needed)". Currently, this project is in the "make it work"
 phase, where the requirements aren't implemented, eg there is no program yet, but the business logic as verified by
 tests appears to work for the happy paths.
 
