@@ -1,14 +1,13 @@
-package com.charlene.coffee;
+package com.charlene.coffee.receipt;
 
-import com.charlene.coffee.model.BaconRoll;
-import com.charlene.coffee.model.Coffee;
-import com.charlene.coffee.model.OrangeJuice;
-import com.charlene.coffee.model.Receipt;
+import com.charlene.coffee.saleitems.BaconRoll;
+import com.charlene.coffee.saleitems.Coffee;
+import com.charlene.coffee.saleitems.OrangeJuice;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static com.charlene.coffee.model.Coffee.Extras.*;
-import static com.charlene.coffee.model.Coffee.Size.*;
+import static com.charlene.coffee.saleitems.Coffee.Extras.*;
+import static com.charlene.coffee.saleitems.Coffee.Size.*;
 
 /**
  * Verifies the creation of a receipt for Charlene's Coffee Corner

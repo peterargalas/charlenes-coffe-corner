@@ -1,4 +1,7 @@
-package com.charlene.coffee.model;
+package com.charlene.coffee.receipt;
+
+import com.charlene.coffee.saleitems.Coffee;
+import com.charlene.coffee.saleitems.SaleItem;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

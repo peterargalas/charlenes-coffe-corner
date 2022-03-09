@@ -1,7 +1,4 @@
-package com.charlene.coffee;
-
-import com.charlene.coffee.model.LineItem;
-import com.charlene.coffee.model.Receipt;
+package com.charlene.coffee.receipt;
 
 import java.math.RoundingMode;
 import java.util.stream.Collectors;

@@ -1,4 +1,4 @@
-package com.charlene.coffee.model;
+package com.charlene.coffee.saleitems;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
