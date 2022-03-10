@@ -1,18 +1,24 @@
 ## Interpretations and notes from implementing the Coffee Corner application
 
+### How to run
+
+- Build with `mvn package`
+- Run from command line with `java -jar target/coffee-1.0-SNAPSHOT.jar large coffee with extra milk`
+
 ### Current status
 
-I believe in "Make it work, make it nice, make it perform (if needed)". Currently, this project is in the "make it work"
-phase, where the requirements aren't implemented, eg there is no program yet, but the business logic as verified by
-tests appears to work for the happy paths.
+I believe in "Make it work, make it nice, make it perform (if needed)". Currently, this project is in the "make it nice"
+phase, where all the requirements are implemented, but the code needs an iteration or two to make it simpler and more
+readable, as well as providing a good user experience when bad input is entered.
 
 I am also in a position where I'd like to submit something today, therefore I've forwarded a link to this repository and
-might continue working on it this evening (2022-03-09).
+might continue working on it this evening (2022-03-10).
 
 ### TODO
 
-- Implement program that reads purchased items from the command line and outputs the receipt to the console.
-- Add code and tests for the unhappy paths
+- Add usage instructions to the main class when the input isn't parsable.
+- Check code coverage, that has gone down since the Main class was added.
+- Add test to Main class.
 - Refactor code for increased clarity and possibly efficiency. Some of the stream operations would benefit from cleanup
   for readability and virtually no considerations have been made for performance. I think this makes sense given that
   we're printing a receipt for a coffee shop, meaning that the most likely scenario is that we have a few items per
@@ -62,9 +68,10 @@ making the receipt look nice except for aligning the amounts.
 
 ### Tests
 
-All tests are based on the ReceiptPrinter output and have 100% coverage. Tests could have been written for each class,
-but I chose to implement them on this level because I think that it makes sense to treat the receipt generation as a
-black box that I send the input to and observe that the output is what is expected.
+I haven't added tests to each class, since I prefer a black box approach where possible. This means adding input to the
+system and observing that the system as a whole returns the expected output. For instance, by testing the ReceiptPrinter
+output the test asserts that the correct output is produced. This allows me to refactor the underlying implementation
+without having to update any tests as long as the code still produces the same output.
 
 ### Program
 
