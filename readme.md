@@ -11,18 +11,7 @@ I believe in "Make it work, make it nice, make it perform (if needed)". Currentl
 phase, where all the requirements are implemented, but the code needs an iteration or two to make it simpler and more
 readable, as well as providing a good user experience when bad input is entered.
 
-I am also in a position where I'd like to submit something today, therefore I've forwarded a link to this repository and
-might continue working on it this evening (2022-03-10).
-
-### TODO
-
-- Add usage instructions to the main class when the input isn't parsable.
-- Check code coverage, that has gone down since the Main class was added.
-- Add test to Main class.
-- Refactor code for increased clarity and possibly efficiency. Some of the stream operations would benefit from cleanup
-  for readability and virtually no considerations have been made for performance. I think this makes sense given that
-  we're printing a receipt for a coffee shop, meaning that the most likely scenario is that we have a few items per
-  receipt.
+I don't think the code needs to be improved for performance considering how it will be used.
 
 ### Bonus program
 
@@ -72,8 +61,3 @@ I haven't added tests to each class, since I prefer a black box approach where p
 system and observing that the system as a whole returns the expected output. For instance, by testing the ReceiptPrinter
 output the test asserts that the correct output is produced. This allows me to refactor the underlying implementation
 without having to update any tests as long as the code still produces the same output.
-
-### Program
-
-I haven't written a program that takes input from the command line and produces the receipt. The only way to currently
-run the code is via the tests. I expect that adding the program with input parsing would be an extra hours work or so.

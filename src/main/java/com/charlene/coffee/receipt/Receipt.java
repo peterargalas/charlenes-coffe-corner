@@ -28,8 +28,7 @@ import java.util.stream.Stream;
  * Charlene's idea is to attract as many regular‘s as possible to have a steady turnaround.
  * She decides to offer a customer stamp card, where every 5th beverage is for free.
  * If a customer orders a beverage and a snack, one of the extra's is free.
- * Your task is to:
- * Write a simple program whose output is formatted like a receipt you would receive at a supermarket.
+ * <p>
  * The input to the program is a list of products the shopper wants to purchase (large coffee with extra milk, small coffee with special roast,
  * bacon roll, orange juice)
  */

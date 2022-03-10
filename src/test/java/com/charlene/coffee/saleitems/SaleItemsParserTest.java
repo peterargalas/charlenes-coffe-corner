@@ -49,4 +49,11 @@ class SaleItemsParserTest {
 
         assertThrows(IllegalArgumentException.class, () -> SaleItemsParser.parse(invalidString));
     }
+
+    @Test
+    void parseInvalidCoffeeExtraShouldFail() {
+        String invalidString = "large coffee with cinnamon";
+
+        assertThrows(IllegalArgumentException.class, () -> SaleItemsParser.parse(invalidString));
+    }
 }
