@@ -2,7 +2,7 @@ package com.charlene.coffee.saleitems;
 
 import java.math.BigDecimal;
 
-public class OrangeJuice implements SaleItem {
+public record OrangeJuice() implements SaleItem {
     private static final BigDecimal PRICE = new BigDecimal("3.95");
 
     @Override

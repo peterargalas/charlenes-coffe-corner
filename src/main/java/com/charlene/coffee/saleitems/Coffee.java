@@ -2,25 +2,29 @@ package com.charlene.coffee.saleitems;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.List;
 import java.util.StringJoiner;
 
 /**
  * Represents a coffee of a certain size with optional extras.
  */
-public record Coffee(Size size, Extras... extras) implements SaleItem {
+public record Coffee(Size size, List<Extra> extras) implements SaleItem {
+    public Coffee(Size size, Extra... extras) {
+        this(size, Arrays.stream(extras).toList());
+    }
 
     @Override
     public String description() {
         StringJoiner joiner = new StringJoiner(", ");
         joiner.add(size.name().toLowerCase());
 
-        Arrays.stream(extras).map(Extras::printableName).forEach(joiner::add);
+        extras.stream().map(Extra::printableName).forEach(joiner::add);
         return "Coffee (" + joiner + ")";
     }
 
     @Override
     public BigDecimal price() {
-        BigDecimal priceOfExtras = Arrays.stream(extras).map(extra -> extra.price).reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal priceOfExtras = extras.stream().map(extra -> extra.price).reduce(BigDecimal.ZERO, BigDecimal::add);
         return size.price.add(priceOfExtras);
     }
 
@@ -41,14 +45,14 @@ public record Coffee(Size size, Extras... extras) implements SaleItem {
         }
     }
 
-    public enum Extras {
+    public enum Extra {
         EXTRA_MILK(new BigDecimal("0.30")),
         FOAMED_MILK(new BigDecimal("0.50")),
         SPECIAL_ROAST(new BigDecimal("0.90"));
 
         private final BigDecimal price;
 
-        Extras(BigDecimal price) {
+        Extra(BigDecimal price) {
             this.price = price;
         }
 

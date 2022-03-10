@@ -6,7 +6,7 @@ import com.charlene.coffee.saleitems.OrangeJuice;
 import org.junit.jupiter.api.Test;
 
 import static com.charlene.coffee.receipt.ReceiptPrinter.print;
-import static com.charlene.coffee.saleitems.Coffee.Extras.*;
+import static com.charlene.coffee.saleitems.Coffee.Extra.*;
 import static com.charlene.coffee.saleitems.Coffee.Size.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

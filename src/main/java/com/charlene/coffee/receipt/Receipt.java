@@ -76,12 +76,12 @@ public record Receipt(String name, BigDecimal total, List<LineItem> lineItems) {
                 .filter(SaleItem::isSnack)
                 .count();
 
-        List<Coffee.Extras> allExtrasByDescendingPrice =
+        List<Coffee.Extra> allExtrasByDescendingPrice =
                 new ArrayList<>(
                         Arrays.stream(items)
                                 .filter(item -> item instanceof Coffee)
-                                .flatMap(item -> Arrays.stream(((Coffee) item).extras()))
-                                .sorted(Comparator.comparing(Coffee.Extras::getPrice)
+                                .flatMap(item -> ((Coffee) item).extras().stream())
+                                .sorted(Comparator.comparing(Coffee.Extra::getPrice)
                                         .reversed())
                                 .toList());
 
@@ -91,7 +91,7 @@ public record Receipt(String name, BigDecimal total, List<LineItem> lineItems) {
         for (int i = 0; i < snackCount; i++) {
             // Do we have any extras left to discount?
             if (!allExtrasByDescendingPrice.isEmpty()) {
-                Coffee.Extras extra = allExtrasByDescendingPrice.get(0);
+                Coffee.Extra extra = allExtrasByDescendingPrice.get(0);
                 discountList.add(new LineItem(
                         "Discount: free extra with snack (" + extra.printableName() + ")",
                         extra.getPrice().multiply(BigDecimal.valueOf(-1))));
