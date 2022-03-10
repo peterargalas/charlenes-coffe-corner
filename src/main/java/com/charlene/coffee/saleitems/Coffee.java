@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.StringJoiner;
 
+import static java.math.BigDecimal.ZERO;
+
 /**
  * Represents a coffee of a certain size with optional extras.
  */
@@ -24,7 +26,7 @@ public record Coffee(Size size, List<Extra> extras) implements SaleItem {
 
     @Override
     public BigDecimal price() {
-        BigDecimal priceOfExtras = extras.stream().map(extra -> extra.price).reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal priceOfExtras = extras.stream().map(extra -> extra.price).reduce(ZERO, BigDecimal::add);
         return size.price.add(priceOfExtras);
     }
 

@@ -15,10 +15,12 @@ import static com.charlene.coffee.saleitems.Coffee.Extra.*;
  * Parses input as written by a person and returns a collection of SaleItems.
  */
 public class SaleItemsParser {
+    // Yes, "Some people, when confronted with a problem, think "I know, I'll use regular expressions." Now they have two problems."
+    // This matches a size, the coffee literal and captures an optional with extras section.
     private static final Pattern coffeePattern = Pattern.compile("(small|medium|large) coffee(?: with )?(.*)?");
 
     /**
-     * Parses a string of SaleItems and returns the corresponding SaleItems. The parser is not case sensitive.
+     * Parses a string of SaleItems and returns the corresponding SaleItems. The parser is not case-sensitive.
      * <p>
      * Expected input: a comma separated list of sale items.
      * Accepted tokens:
@@ -32,18 +34,18 @@ public class SaleItemsParser {
     public static SaleItem[] parse(String input) {
         List<SaleItem> items = new ArrayList<>();
 
-        StringTokenizer tokenizer = new StringTokenizer(input, ",");
+        StringTokenizer itemTokenizer = new StringTokenizer(input, ",");
 
-        while (tokenizer.hasMoreTokens()) {
-            String token = tokenizer.nextToken().trim();
+        while (itemTokenizer.hasMoreTokens()) {
+            String itemString = itemTokenizer.nextToken().toLowerCase().trim();
 
-            SaleItem saleItem = switch (token.toLowerCase()) {
+            // For readability, the value of the switch expression could be extracted into a variable. I like it this
+            // way.
+            items.add(switch (itemString) {
                 case "bacon roll" -> new BaconRoll();
                 case "orange juice" -> new OrangeJuice();
-                default -> parseCoffee(token.toLowerCase());
-            };
-
-            items.add(saleItem);
+                default -> parseCoffee(itemString);
+            });
         }
 
         return items.toArray(new SaleItem[]{});
@@ -53,36 +55,40 @@ public class SaleItemsParser {
         Matcher matcher = coffeePattern.matcher(input);
 
         if (!matcher.matches()) {
-            throw new IllegalArgumentException("I'm sorry, I don't understand '" + input + "'");
+            throw new IllegalArgumentException("I'm sorry, I was expecting a coffee. I don't understand '" + input +
+                    "'");
         }
 
-        String sizeString = matcher.group(1).toUpperCase();
-        Coffee.Size size = Coffee.Size.valueOf(sizeString);
+        String sizeString = matcher.group(1);
+        Coffee.Size size = Coffee.Size.valueOf(sizeString.toUpperCase());
 
-        Extra[] extras = parseExtras(matcher.group(2));
+        List<Extra> extras = parseExtras(matcher.group(2));
 
         return new Coffee(size, extras);
     }
 
-    private static Extra[] parseExtras(String input) {
+    /**
+     * Parses coffee extras. Expected input is eg "special roast and foamed milk"
+     *
+     * @param input lower case String
+     */
+    private static List<Extra> parseExtras(String input) {
         // Scanner used to switch on a string, not a single character.
         Scanner scanner = new Scanner(input).useDelimiter(" and ");
 
         List<Extra> extras = new ArrayList<>();
 
         while (scanner.hasNext()) {
-            String token = scanner.next();
+            String extraToken = scanner.next();
 
-            Extra extra = switch (token.toLowerCase()) {
+            extras.add(switch (extraToken.toLowerCase()) {
                 case "extra milk" -> EXTRA_MILK;
-                case "special roast" -> SPECIAL_ROAST;
                 case "foamed milk" -> FOAMED_MILK;
-                default -> throw new IllegalArgumentException("I'm sorry, I couldn't find a " + token + " as a Coffee extra");
-            };
-
-            extras.add(extra);
+                case "special roast" -> SPECIAL_ROAST;
+                default -> throw new IllegalArgumentException("I'm sorry, I couldn't find a " + extraToken + " as a Coffee extra");
+            });
         }
 
-        return extras.toArray(new Extra[]{});
+        return extras;
     }
 }

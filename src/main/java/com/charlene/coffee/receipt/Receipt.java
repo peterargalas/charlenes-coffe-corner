@@ -32,80 +32,78 @@ import java.util.stream.Stream;
  * The input to the program is a list of products the shopper wants to purchase (large coffee with extra milk, small coffee with special roast,
  * bacon roll, orange juice)
  */
-public record Receipt(String name, BigDecimal total, List<LineItem> lineItems) {
+public record Receipt(String header, BigDecimal totalPrice, List<LineItem> lineItems) {
     public static Receipt fromItems(SaleItem... items) {
         List<LineItem> lineItems = toLineItems(items);
         return new Receipt("Charlene's Coffee Corner", calculateTotalPrice(lineItems), lineItems);
     }
 
     private static BigDecimal calculateTotalPrice(List<LineItem> items) {
-        return items.stream().map(LineItem::price).reduce(BigDecimal.ZERO, BigDecimal::add);
+        return items.stream()
+                .map(LineItem::price)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    private static List<LineItem> discounts(SaleItem... items) {
+    private static Stream<LineItem> discounts(SaleItem... items) {
         return Stream.concat(
-                        extrasDiscountBasedOnSnacks(items).stream(),
-                        everyFifthBeverageFreeDiscounts(items).stream())
-                .toList();
+                extrasDiscountBasedOnSnacks(items),
+                everyFifthBeverageFreeDiscounts(items));
     }
 
-    private static List<LineItem> everyFifthBeverageFreeDiscounts(SaleItem[] items) {
-        List<LineItem> discountList = new ArrayList<>();
+    private static Stream<LineItem> everyFifthBeverageFreeDiscounts(SaleItem... items) {
         long beveragesCount = Arrays.stream(items)
                 .filter(SaleItem::isBeverage)
                 .count();
 
-        if (beveragesCount >= 5) {
-            List<SaleItem> beveragesByDescendingPrice = new ArrayList<>(Arrays.stream(items)
-                    .filter(SaleItem::isBeverage)
-                    .sorted(Comparator.comparing(SaleItem::price).reversed())
-                    .toList());
-
-            LongStream.range(0, beveragesCount / 5).forEach(index -> {
-                SaleItem saleItem = beveragesByDescendingPrice.get((int) index);
-                discountList.add(new LineItem("Bonus: every fifth beverage free",
-                        saleItem.price().multiply(BigDecimal.valueOf(-1))));
-            });
+        if (beveragesCount < 5) {
+            return Stream.empty();
         }
-        return discountList;
+
+        List<SaleItem> beveragesByDescendingPrice = Arrays.stream(items)
+                .filter(SaleItem::isBeverage)
+                .sorted(Comparator.comparing(SaleItem::price).reversed())
+                .toList();
+
+        return LongStream.range(0, beveragesCount / 5).mapToObj(index -> {
+            SaleItem saleItem = beveragesByDescendingPrice.get((int) index);
+            return new LineItem("Bonus: every fifth beverage free", saleItem.price().negate());
+        });
     }
 
-    private static List<LineItem> extrasDiscountBasedOnSnacks(SaleItem[] items) {
+    private static Stream<LineItem> extrasDiscountBasedOnSnacks(SaleItem[] items) {
         long snackCount = Arrays.stream(items)
                 .filter(SaleItem::isSnack)
                 .count();
 
         List<Coffee.Extra> allExtrasByDescendingPrice =
-                new ArrayList<>(
-                        Arrays.stream(items)
-                                .filter(item -> item instanceof Coffee)
-                                .flatMap(item -> ((Coffee) item).extras().stream())
-                                .sorted(Comparator.comparing(Coffee.Extra::getPrice)
-                                        .reversed())
-                                .toList());
+                Arrays.stream(items)
+                        // If the item is a Coffee, extract all the extras.
+                        .flatMap(item -> item instanceof Coffee c ? c.extras().stream() : Stream.empty())
+                        .sorted(Comparator.comparing(Coffee.Extra::getPrice).reversed())
+                        .toList();
 
         List<LineItem> discountList = new ArrayList<>();
 
-        // Iterate for each snack.
-        for (int i = 0; i < snackCount; i++) {
+        LongStream.range(0, snackCount).forEach(index -> {
             // Do we have any extras left to discount?
-            if (!allExtrasByDescendingPrice.isEmpty()) {
-                Coffee.Extra extra = allExtrasByDescendingPrice.get(0);
-                discountList.add(new LineItem(
-                        "Discount: free extra with snack (" + extra.printableName() + ")",
-                        extra.getPrice().multiply(BigDecimal.valueOf(-1))));
-
-                allExtrasByDescendingPrice.remove(0);
+            if (index < allExtrasByDescendingPrice.size()) {
+                Coffee.Extra extra = allExtrasByDescendingPrice.get((int) index);
+                discountList.add(
+                        new LineItem("Discount: free extra with snack (" + extra.printableName() + ")", extra.getPrice().negate()));
             }
-        }
+        });
 
-        return discountList;
+        return discountList.stream();
     }
 
+    /**
+     * Takes SaleItems and returns LineItems corresponding to the SaleItem and adds discount items if applicable.
+     */
     private static List<LineItem> toLineItems(SaleItem... items) {
-        List<LineItem> discounts = discounts(items);
-        return Stream.concat(Arrays.stream(items)
-                .map(saleItem -> new LineItem(saleItem.description(), saleItem.price())), discounts.stream()).toList();
+        return Stream.concat(
+                Arrays.stream(items).map(saleItem -> new LineItem(saleItem.description(), saleItem.price())),
+                discounts(items)
+        ).toList();
     }
 
     public boolean hasLineItems() {

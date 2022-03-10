@@ -4,7 +4,7 @@ import java.math.RoundingMode;
 import java.util.stream.Collectors;
 
 /**
- * Knows how to convert a receipt to a printable string.
+ * Converts a receipt to a printable string.
  */
 public class ReceiptPrinter {
     private final static String SECTION_SEPARATOR = System.lineSeparator() + System.lineSeparator();
@@ -20,14 +20,14 @@ public class ReceiptPrinter {
                     .map(ReceiptPrinter::lineItemString)
                     .collect(Collectors.joining(System.lineSeparator()));
 
-            String totalsString = lineItemString(new LineItem("Total", receipt.total().setScale(2,
+            String totalsString = lineItemString(new LineItem("Total", receipt.totalPrice().setScale(2,
                     RoundingMode.HALF_UP))) + System.lineSeparator();
 
-            return receipt.name() +
+            return receipt.header() +
                     SECTION_SEPARATOR + lineItemsString +
                     SECTION_SEPARATOR + totalsString;
         }
 
-        return receipt.name() + System.lineSeparator();
+        return receipt.header() + System.lineSeparator();
     }
 }

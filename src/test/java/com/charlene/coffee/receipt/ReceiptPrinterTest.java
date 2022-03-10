@@ -113,8 +113,7 @@ public class ReceiptPrinterTest {
 
     @Test
     void shouldPrintReceiptForCoffeeWithExtras() {
-        var receipt = Receipt.fromItems(new Coffee(MEDIUM, EXTRA_MILK, FOAMED_MILK,
-                SPECIAL_ROAST));
+        var receipt = Receipt.fromItems(new Coffee(MEDIUM, EXTRA_MILK, FOAMED_MILK, SPECIAL_ROAST));
 
         assertEquals(RECEIPT_FOR_ONE_MEDIUM_COFFEE_WITH_EXTRAS, print(receipt));
     }
