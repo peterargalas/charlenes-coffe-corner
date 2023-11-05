@@ -1,9 +1,16 @@
 package com.charlene.coffee.saleitems;
 
+import com.charlene.coffee.model.saleitem.BaconRoll;
+import com.charlene.coffee.model.saleitem.Coffee;
+import com.charlene.coffee.model.saleitem.OrangeJuice;
+import com.charlene.coffee.model.saleitem.SaleItem;
 import org.junit.jupiter.api.Test;
 
-import static com.charlene.coffee.saleitems.Coffee.Extra.*;
-import static com.charlene.coffee.saleitems.Coffee.Size.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.charlene.coffee.model.saleitem.Coffee.Extra.*;
+import static com.charlene.coffee.model.saleitem.Coffee.Size.*;
 import static com.charlene.coffee.saleitems.SaleItemsParser.parse;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -56,5 +63,29 @@ class SaleItemsParserTest {
         String invalidInput = "large coffee with cinnamon";
 
         assertThrows(IllegalArgumentException.class, () -> parse(invalidInput));
+    }
+
+    @Test
+    void parseJuiceVariations() {
+        ArrayList<String> variations = new ArrayList<>(
+          List.of("orange juice", "juice", "fresh")
+        );
+
+        variations.forEach((juice) -> {
+            SaleItem[] saleItems = parse(juice);
+            assertArrayEquals(new SaleItem[]{new OrangeJuice()}, saleItems);
+        });
+    }
+
+    @Test
+    void parseBaconRollVariations() {
+        ArrayList<String> variations = new ArrayList<>(
+          List.of("bacon roll", "bacon", "roll")
+        );
+
+        variations.forEach((juice) -> {
+            SaleItem[] saleItems = parse(juice);
+            assertArrayEquals(new SaleItem[]{new BaconRoll()}, saleItems);
+        });
     }
 }

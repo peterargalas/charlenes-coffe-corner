@@ -1,7 +1,7 @@
 package com.charlene.coffee;
 
-import com.charlene.coffee.receipt.Receipt;
-import com.charlene.coffee.receipt.ReceiptPrinter;
+import com.charlene.coffee.model.receipt.Receipt;
+import com.charlene.coffee.printer.ReceiptPrinter;
 import com.charlene.coffee.saleitems.SaleItemsParser;
 
 import java.util.StringJoiner;
@@ -14,8 +14,8 @@ public class Main {
             bacon roll, orange juice, large coffee with special roast and foamed milk
                         
             Valid items are:
-            - bacon roll
-            - orange juice
+            - bacon roll|bacon|roll
+            - orange juice|juice|fresh
             - small|medium|large coffee [with <extras>]
                         
             valid extras are

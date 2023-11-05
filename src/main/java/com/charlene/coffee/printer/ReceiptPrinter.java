@@ -1,4 +1,7 @@
-package com.charlene.coffee.receipt;
+package com.charlene.coffee.printer;
+
+import com.charlene.coffee.model.receipt.LineItem;
+import com.charlene.coffee.model.receipt.Receipt;
 
 import java.math.RoundingMode;
 import java.util.stream.Collectors;
@@ -23,11 +26,11 @@ public class ReceiptPrinter {
             String totalsString = lineItemString(new LineItem("Total", receipt.totalPrice().setScale(2,
                     RoundingMode.HALF_UP))) + System.lineSeparator();
 
-            return receipt.header() +
+            return Receipt.SHOP_NAME +
                     SECTION_SEPARATOR + lineItemsString +
                     SECTION_SEPARATOR + totalsString;
         }
 
-        return receipt.header() + System.lineSeparator();
+        return Receipt.SHOP_NAME + System.lineSeparator();
     }
 }

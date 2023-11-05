@@ -1,4 +1,4 @@
-package com.charlene.coffee.saleitems;
+package com.charlene.coffee.model.saleitem;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -65,5 +65,7 @@ public record Coffee(Size size, List<Extra> extras) implements SaleItem {
         public String printableName() {
             return name().toLowerCase().replace('_', ' ');
         }
+
+        public String compactName() { return name().toLowerCase().replace("_", ""); }
     }
 }

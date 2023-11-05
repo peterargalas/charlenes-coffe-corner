@@ -1,13 +1,14 @@
-package com.charlene.coffee.receipt;
+package com.charlene.coffee.printer;
 
-import com.charlene.coffee.saleitems.BaconRoll;
-import com.charlene.coffee.saleitems.Coffee;
-import com.charlene.coffee.saleitems.OrangeJuice;
+import com.charlene.coffee.model.saleitem.BaconRoll;
+import com.charlene.coffee.model.saleitem.Coffee;
+import com.charlene.coffee.model.saleitem.OrangeJuice;
+import com.charlene.coffee.model.receipt.Receipt;
 import org.junit.jupiter.api.Test;
 
-import static com.charlene.coffee.receipt.ReceiptPrinter.print;
-import static com.charlene.coffee.saleitems.Coffee.Extra.*;
-import static com.charlene.coffee.saleitems.Coffee.Size.*;
+import static com.charlene.coffee.printer.ReceiptPrinter.print;
+import static com.charlene.coffee.model.saleitem.Coffee.Extra.*;
+import static com.charlene.coffee.model.saleitem.Coffee.Size.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**

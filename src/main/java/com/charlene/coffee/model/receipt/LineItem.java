@@ -1,4 +1,4 @@
-package com.charlene.coffee.receipt;
+package com.charlene.coffee.model.receipt;
 
 import java.math.BigDecimal;
 

@@ -1,3 +1,52 @@
+# Implementation notes
+Before I started to implement this task I did a small analysis, where I have removed customer stamp card from requirements 
+as there is no requirement to support card evidence and without persistence it would be hard to implement.
+
+As a next step I did a quick research if there isn't any solution for this task already done by someone. 
+Reason why I did so is I don't like to reinvent the wheel and I always take some (reasonably long) time 
+to check whether there's a solution for a problem.
+
+By chance, I found a solution for this task prepared by David Durant. I went throught the code and found out it is a very
+simple and well implemented solution. So it did not make sense to me to write it once again. 
+I rather tried to identify places for enhancement and refactoring. My findings and enhancements are summarized in next section.
+
+## Refactoring
+
+### Project structure
+
+I have created packages for model classes, to better separate data (model) classes from classes implementing business
+logic. I have created two packages: 
+- model.saleitem for coffee corner sale items classes
+- model.receipt for receipt classes
+
+Remaining classes where moved to packages, that better represents their behaviour and purpose
+- SaleItemsParser was moved to parser package
+- ReceiptPrinter was moved to printer package
+
+### Robustness update
+
+I have improved the implementation robustness by addind support for item name alternatives and support for 
+accepting consequent whitespaces in the input string.
+
+Example inputs that are now supported:
+- "juice", "orange juice", "fresh" as an alterantive for orange juice
+- "small  coffe" and "small    coffe" are both recognized as "small coffee"
+
+### Removal of Tokenizer and Scanner
+
+In service parser I have replaced (from my point of view unnecessary) usage of Tokenizer and Scanner,
+with String.split and Stream API.
+
+I have also replaced explicit mappings of extras input to Extra enumeration literal with iteration over Extra enumeration
+values and comparing compacted literal name with the input string. This approch provides better support for adding new literals
+to Extra enumeration without necessity to modify the parser.
+
+### Minor changes
+
+I have extracted string constants used directly in code into static constants to improve readability and maintenance.
+
+---
+Original readme from David Durrant <david@durrant.se>
 ## Interpretations and notes from implementing the Coffee Corner application
 
 ### How to run

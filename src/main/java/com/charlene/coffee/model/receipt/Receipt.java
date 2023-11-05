@@ -1,7 +1,7 @@
-package com.charlene.coffee.receipt;
+package com.charlene.coffee.model.receipt;
 
-import com.charlene.coffee.saleitems.Coffee;
-import com.charlene.coffee.saleitems.SaleItem;
+import com.charlene.coffee.model.saleitem.Coffee;
+import com.charlene.coffee.model.saleitem.SaleItem;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -32,10 +32,14 @@ import java.util.stream.Stream;
  * The input to the program is a list of products the shopper wants to purchase (large coffee with extra milk, small coffee with special roast,
  * bacon roll, orange juice)
  */
-public record Receipt(String header, BigDecimal totalPrice, List<LineItem> lineItems) {
+public record Receipt(BigDecimal totalPrice, List<LineItem> lineItems) {
+    public static final String SHOP_NAME = "Charlene's Coffee Corner";
+    private static final String FREE_FIFTH_BEVERAGE = "Bonus: every fifth beverage free";
+    private static final String FREE_EXTRA_WITH_SNACK = "Discount: free extra with snack";
+
     public static Receipt fromItems(SaleItem... items) {
         List<LineItem> lineItems = toLineItems(items);
-        return new Receipt("Charlene's Coffee Corner", calculateTotalPrice(lineItems), lineItems);
+        return new Receipt(calculateTotalPrice(lineItems), lineItems);
     }
 
     private static BigDecimal calculateTotalPrice(List<LineItem> items) {
@@ -66,7 +70,7 @@ public record Receipt(String header, BigDecimal totalPrice, List<LineItem> lineI
 
         return LongStream.range(0, beveragesCount / 5).mapToObj(index -> {
             SaleItem saleItem = beveragesByDescendingPrice.get((int) index);
-            return new LineItem("Bonus: every fifth beverage free", saleItem.price().negate());
+            return new LineItem(FREE_FIFTH_BEVERAGE, saleItem.price().negate());
         });
     }
 
@@ -89,7 +93,7 @@ public record Receipt(String header, BigDecimal totalPrice, List<LineItem> lineI
             if (index < allExtrasByDescendingPrice.size()) {
                 Coffee.Extra extra = allExtrasByDescendingPrice.get((int) index);
                 discountList.add(
-                        new LineItem("Discount: free extra with snack (" + extra.printableName() + ")", extra.getPrice().negate()));
+                        new LineItem(FREE_EXTRA_WITH_SNACK + " (" + extra.printableName() + ")", extra.getPrice().negate()));
             }
         });
 
